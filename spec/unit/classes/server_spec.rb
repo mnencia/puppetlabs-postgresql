@@ -34,6 +34,7 @@ describe 'postgresql::server', :type => :class do
       {
         :ensure => 'absent',
         :datadir => '/my/path',
+        :xlogdir => '/xlog/path',
       }
     end
 
@@ -51,6 +52,12 @@ describe 'postgresql::server', :type => :class do
 
     it 'should remove datadir' do
       should contain_file('/my/path').with({
+        :ensure => 'absent',
+      })
+    end
+
+    it 'should remove xlogdir' do
+      should contain_file('/xlog/path').with({
         :ensure => 'absent',
       })
     end
