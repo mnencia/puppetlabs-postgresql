@@ -100,6 +100,7 @@ describe 'server without defaults:' do
           manage_package_repo => true,
           encoding            => 'UTF8',
           locale              => 'en_US.UTF-8',
+          xlogdir             => '/tmp/pg_xlogs',
         }
         class { "postgresql::server": }
         postgresql::server::db { "postgresql_test_db":
@@ -117,6 +118,8 @@ describe 'server without defaults:' do
         r.exit_code.should == 0
       end
 
+      should contain_file('/xlog/path')
+      
       psql('postgresql_test_db --command="select datname from pg_database limit 1"') do |r|
         r.exit_code.should == 0
       end
